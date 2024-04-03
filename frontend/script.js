@@ -6,7 +6,7 @@ window.addEventListener("load", function() {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log(data["results"][0]);
+            console.log(data);
         })
         .catch(error => {
             console.log(error);

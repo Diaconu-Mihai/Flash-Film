@@ -1,0 +1,26 @@
+{
+  "name": "flash-film",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Diaconu-Mihai/Flash-Film.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Diaconu-Mihai/Flash-Film/issues"
+  },
+  "homepage": "https://github.com/Diaconu-Mihai/Flash-Film#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
