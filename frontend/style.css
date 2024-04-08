@@ -1,3 +1,11 @@
 div {text-align: center;
     font-size: 50px;
     }
+
+/* Stiluri pentru imagine */
+.poster {
+    width: 200px; /* Lățimea imaginii */
+    height: auto; /* Înălțimea se va ajusta automat proporțional cu lățimea */
+    border-radius: 5px; /* Bordură rotunjită */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Umbra */
+}
