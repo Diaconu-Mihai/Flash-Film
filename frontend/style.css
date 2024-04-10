@@ -9,3 +9,37 @@ div {text-align: center;
     border-radius: 5px; /* Bordură rotunjită */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Umbra */
 }
+
+/* Container for the search bar */
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 500px;
+    margin: 20px auto;
+  }
+
+
+  /* Search input field */
+#searchInput {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1; 
+    margin-right: 10px; 
+  }
+
+
+  /* Search button */
+#searchButton {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Hover effect for button */
+#searchButton:hover {
+    background-color: #4d0e20; 
+  }
