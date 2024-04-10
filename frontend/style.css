@@ -1,6 +1,16 @@
+/*
 div {text-align: center;
     font-size: 50px;
     }
+*/
+body {
+    background-color: rgb(43, 42, 42);
+    color: white; /* Setează culoarea textului la alb pentru a asigura o citibilitate bună pe fundalul negru */
+}
+
+.poster-container {
+    overflow: hidden; /* Asigură că containerul nu se va extinde pentru a include iframe-ul trailerului */
+}
 
 /* Stiluri pentru imagine */
 .poster {
@@ -8,4 +18,23 @@ div {text-align: center;
     height: auto; /* Înălțimea se va ajusta automat proporțional cu lățimea */
     border-radius: 5px; /* Bordură rotunjită */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Umbra */
+    float: left;
+    /*margin-right: 20px;*/
+}
+
+.movie-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.trailer {
+    float: right;
+    margin-left: 20px; 
+    height: auto;
+}
+
+.description {
+    clear: both;
+    margin-top: 20px;
 }
