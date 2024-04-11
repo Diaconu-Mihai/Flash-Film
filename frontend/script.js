@@ -14,20 +14,22 @@ window.addEventListener("load", function () {
                 const movie = data;
                 console.log(data);
 
-                // Construim URL-ul pentru posterul filmului
                 const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
-                // Construim HTML-ul pentru afișarea detaliilor filmului
                 rootElement.insertAdjacentHTML("beforeend",
                     ` <div class="movie-details">
                         <h2>${movie.title}</h2>
                         <div class="poster-container">
                             <img src="${posterUrl}" class="poster">
-                            <iframe src="https://www.youtube.com/embed/${movie.videos.results[2].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+                            <iframe src="https://www.youtube.com/embed/${movie.videos.results[10].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
                         </div>
                         <button class="rateReview-btn">Rate & Review</button>
                         <button class="wishlist-btn">Add to Wishlist</button>
-                        <p>${movie.overview}</p>
+                        <p>Rateing ${movie.vote_average}</p>
+                        <div class="description">
+                            <p>Description:</p>
+                            <p>${movie.overview}</p>
+                        </div>
                         <h3>Cast:</h3>
                         <div class="cast-container">
                             ${movie.credits.cast.slice(0, 5).map(actor => `
@@ -35,7 +37,6 @@ window.addEventListener("load", function () {
                                     <img src="https://image.tmdb.org/t/p/w185${actor.profile_path}" alt="${actor.name}" class="actor-image">
                                     <p class="actor-name">${actor.name}</p>
                                 </div>`).join('')}
-                            <button class="more-btn">More</button>
                             <div class="hidden-actors">
                                 ${movie.credits.cast.slice(3).map(actor => `
                                     <div class="actor">
@@ -43,6 +44,7 @@ window.addEventListener("load", function () {
                                         <p class="actor-name">${actor.name}</p>
                                     </div>`).join('')}
                             </div>
+                        <button class="more-btn">More</button>
                         </div>
                         <h3>Critics reviews:</h3>
                         <ul class="critics-reviews-list">

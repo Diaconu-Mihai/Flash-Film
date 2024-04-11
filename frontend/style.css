@@ -65,16 +65,15 @@ h1 {
     background-color: #160066;
 }
 
-/* CSS Styles for the Cast section */
 .cast-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); /* Afișează actorii într-un singur rând */
-    grid-gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .actor {
     text-align: center;
-    width: 185px; /* Lățimea fixă pentru a se potrivi cu cei de deasupra */
+    width: 185px; 
 }
 
 .actor-image {
@@ -97,16 +96,16 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    align-self: flex-end;
 }
 
-/* CSS Styles for hidden actors */
 .hidden-actors {
     display: none;
 }
 
 .hidden-actors.show {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Afișează câte 5 actori pe aceeași linie */
+    grid-template-columns: repeat(5, 1fr); 
     grid-gap: 10px;
     margin-top: 10px;
 }
