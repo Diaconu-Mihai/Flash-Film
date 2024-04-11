@@ -19,7 +19,7 @@ div {text-align: center;
   }
 
 
-  /* Search input field */
+ /* Search input field */
 #searchInput {
     padding: 8px 12px;
     border: 1px solid #ccc;
@@ -29,7 +29,7 @@ div {text-align: center;
   }
 
 
-  /* Search button */
+/* Search button */
 #searchButton {
     padding: 8px 20px;
     background-color: #007bff;
@@ -39,7 +39,7 @@ div {text-align: center;
     cursor: pointer;
   }
 
-  /* Hover effect for button */
+  
 #searchButton:hover {
     background-color: #4d0e20; 
   }

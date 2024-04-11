@@ -26,3 +26,20 @@ window.addEventListener("load", function() {
             console.log(error);
         })
 })
+
+
+window.addEventListener("load", function() {
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
+
+    
+    searchInput.addEventListener("input", function() {
+        if (searchInput.value.trim() !== "") {
+            searchButton.disabled = false; 
+            searchButton.style.backgroundColor = "#7B00FF"; 
+        } else {
+            searchButton.disabled = true; 
+            searchButton.style.backgroundColor = "#007BFF"; 
+        }
+    });
+});
