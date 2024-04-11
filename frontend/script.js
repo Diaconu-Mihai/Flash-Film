@@ -34,7 +34,7 @@ window.addEventListener("load", function () {
             <label>Email:</label>
             <input type="email" id="email" required><br>
             <label>Password:</label>
-            <input type="password" id="password"required><br>
+            <input type="password" id="password" required><br>
             <button type="submit">Create User</button>
         </form>
         `)
