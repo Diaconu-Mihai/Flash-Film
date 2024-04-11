@@ -1,40 +1,123 @@
-/*
-div {text-align: center;
-    font-size: 50px;
-    }
-*/
 body {
-    background-color: rgb(43, 42, 42);
-    color: white; /* Setează culoarea textului la alb pentru a asigura o citibilitate bună pe fundalul negru */
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.poster-container {
-    overflow: hidden; /* Asigură că containerul nu se va extinde pentru a include iframe-ul trailerului */
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Stiluri pentru imagine */
-.poster {
-    width: 200px; /* Lățimea imaginii */
-    height: auto; /* Înălțimea se va ajusta automat proporțional cu lățimea */
-    border-radius: 5px; /* Bordură rotunjită */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Umbra */
-    float: left;
-    /*margin-right: 20px;*/
+h1 {
+    margin-top: 10px;
 }
 
 .movie-details {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    margin-bottom: 40px;
+    margin-left: 180px;
+    margin-right: 180px;
+}
+
+.poster-container {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.poster {
+    width: 300px;
+    height: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 5px;
 }
 
 .trailer {
     float: right;
-    margin-left: 20px; 
+    width: 800px;
     height: auto;
 }
 
 .description {
-    clear: both;
     margin-top: 20px;
+}
+
+.rateReview-btn,
+.wishlist-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.rateReview-btn:hover,
+.wishlist-btn:hover, .more-btn:hover {
+    background-color: #160066;
+}
+
+/* CSS Styles for the Cast section */
+.cast-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); /* Afișează actorii într-un singur rând */
+    grid-gap: 10px;
+}
+
+.actor {
+    text-align: center;
+    width: 185px; /* Lățimea fixă pentru a se potrivi cu cei de deasupra */
+}
+
+.actor-image {
+    width: 90px;
+    height: auto;
+    border-radius: 5%;
+}
+
+.actor-name {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.more-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* CSS Styles for hidden actors */
+.hidden-actors {
+    display: none;
+}
+
+.hidden-actors.show {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Afișează câte 5 actori pe aceeași linie */
+    grid-gap: 10px;
+    margin-top: 10px;
+}
+
+.critics-reviews-list {
+    list-style: circle;
+    padding: 5px;
+}
+
+.critics-reviews-list li {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }

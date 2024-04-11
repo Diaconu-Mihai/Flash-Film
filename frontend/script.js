@@ -1,4 +1,4 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     const rootElement = document.getElementById("root");
 
     const apiKey = `e39de4c3c1c2758867914877e0dea313`;
@@ -7,56 +7,81 @@ window.addEventListener("load", function() {
     // Funcție pentru a afișa detaliile unui film
     function showMovieDetails(movieId) {
         const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&append_to_response=credits,reviews,videos`;
-        
+
         fetch(movieDetailsUrl)
             .then(response => response.json())
             .then(data => {
                 const movie = data;
+                console.log(data);
 
                 // Construim URL-ul pentru posterul filmului
                 const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
                 // Construim HTML-ul pentru afișarea detaliilor filmului
-                const movieDetailsHTML = `
-                    <div class="movie-details">
+                rootElement.insertAdjacentHTML("beforeend",
+                    ` <div class="movie-details">
                         <h2>${movie.title}</h2>
                         <div class="poster-container">
                             <img src="${posterUrl}" class="poster">
-                            <div class="trailer">
-                                <iframe width="560" height="315" src="https://www.youtube.com/embed/${movie.videos.results[3].key}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                            </div>
-                        </div>    
-                        <div class="description">
-                            <p>${movie.overview}</p>
+                            <iframe src="https://www.youtube.com/embed/${movie.videos.results[2].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
                         </div>
-                        
-                        <h4>Distribuție:</h4>
-                        <ul>
-                            ${movie.credits.cast.map(actor => `<li>${actor.name}</li>`).join('')}
-                        </ul>
-                        <h4>Recenzii utilizatori:</h4>
-                        <ul>
+                        <button class="rateReview-btn">Rate & Review</button>
+                        <button class="wishlist-btn">Add to Wishlist</button>
+                        <p>${movie.overview}</p>
+                        <h3>Cast:</h3>
+                        <div class="cast-container">
+                            ${movie.credits.cast.slice(0, 5).map(actor => `
+                                <div class="actor">
+                                    <img src="https://image.tmdb.org/t/p/w185${actor.profile_path}" alt="${actor.name}" class="actor-image">
+                                    <p class="actor-name">${actor.name}</p>
+                                </div>`).join('')}
+                            <button class="more-btn">More</button>
+                            <div class="hidden-actors">
+                                ${movie.credits.cast.slice(3).map(actor => `
+                                    <div class="actor">
+                                        <img src="https://image.tmdb.org/t/p/w185${actor.profile_path}" alt="${actor.name}" class="actor-image">
+                                        <p class="actor-name">${actor.name}</p>
+                                    </div>`).join('')}
+                            </div>
+                        </div>
+                        <h3>Critics reviews:</h3>
+                        <ul class="critics-reviews-list">
                             ${movie.reviews.results.map(review => `<li>${review.content}</li>`).join('')}
-                        </ul> 
+                        </ul>
                     </div>
-                `;
+                `);
 
-                // Afișăm detaliile filmului în elementul root
-                rootElement.innerHTML = movieDetailsHTML;
+                const rateReviewBtn = rootElement.querySelector('.rateReview-btn');
+                const wishlistBtn = rootElement.querySelector('.wishlist-btn');
+                const moreBtn = rootElement.querySelector('.more-btn');
+                const hiddenActors = rootElement.querySelector('.hidden-actors');
+
+                rateReviewBtn.addEventListener('click', () => {
+                    console.log('Review button clicked');
+                });
+
+                wishlistBtn.addEventListener('click', () => {
+                    console.log('Wishlist button clicked');
+                });
+
+                moreBtn.addEventListener('click', () => {
+                    hiddenActors.classList.toggle('show');
+                    moreBtn.textContent = hiddenActors.classList.contains('show') ? 'Less' : 'More';
+                });
+
             })
             .catch(error => {
                 console.log(error);
             });
-    }
 
-    // Faceți o cerere la API pentru a obține lista de filme și afișați detaliile primului film
+    };
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            const movieId = data.results[3].id;
+            const movieId = data.results[2].id;
             showMovieDetails(movieId);
         })
         .catch(error => {
             console.log(error);
         });
-});
+})
