@@ -3,11 +3,9 @@ window.addEventListener("load", function () {
     const rootElement = document.getElementById("root");
     console.log(page);
     if (page == "") {
-
         const apiKey = `e39de4c3c1c2758867914877e0dea313`;
         const movieTitle = `Avatar`;
         const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(movieTitle)}`;
-
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
