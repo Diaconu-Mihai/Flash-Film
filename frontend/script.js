@@ -21,11 +21,11 @@ window.addEventListener("load", function () {
                         <h2>${movie.title}</h2>
                         <div class="poster-container">
                             <img src="${posterUrl}" class="poster">
-                            <iframe src="https://www.youtube.com/embed/${movie.videos.results[10].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+                            <iframe src="https://www.youtube.com/embed/${movie.videos.results[1].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
                         </div>
                         <button class="rateReview-btn">Rate & Review</button>
                         <button class="wishlist-btn">Add to Wishlist</button>
-                        <p>Rateing ${movie.vote_average}</p>
+                        <p>Rating ${movie.vote_average}</p>
                         <div class="description">
                             <p>Description:</p>
                             <p>${movie.overview}</p>
@@ -80,7 +80,7 @@ window.addEventListener("load", function () {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            const movieId = data.results[2].id;
+            const movieId = data.results[17].id;
             showMovieDetails(movieId);
         })
         .catch(error => {
