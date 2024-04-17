@@ -1,8 +1,27 @@
 window.addEventListener("load", function() {
     const rootElement = document.getElementById("root");
+    const searchBox = document.getElementById("form-control");
+    const searchButton = document.getElementById("searchButton");
+    const movieSearchBox = document.getElementById('movie-search-box');
+    const searchList = document.getElementById('search-list');
+
 
     const apiKey = `e39de4c3c1c2758867914877e0dea313`
     const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`
+
+    searchBox.addEventListener("input", function() {
+        if (searchBox.value.trim() !== "") {
+            searchButton.disabled = false;
+            searchButton.style.backgroundColor = "#8A2BE2"; 
+        } else {
+            searchButton.disabled = true;
+            searchButton.style.backgroundColor = "007bff"; 
+        }
+    });
+
+    searchButton.addEventListener("click", function() {
+        console.log("Search button clicked!");
+    });
 
     
     fetch(apiUrl)
@@ -27,19 +46,3 @@ window.addEventListener("load", function() {
         })
 })
 
-
-window.addEventListener("load", function() {
-    const searchInput = document.getElementById("searchInput");
-    const searchButton = document.getElementById("searchButton");
-
-    
-    searchInput.addEventListener("input", function() {
-        if (searchInput.value.trim() !== "") {
-            searchButton.disabled = false; 
-            searchButton.style.backgroundColor = "#7B00FF"; 
-        } else {
-            searchButton.disabled = true; 
-            searchButton.style.backgroundColor = "#007BFF"; 
-        }
-    });
-});
