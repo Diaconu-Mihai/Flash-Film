@@ -1,6 +1,32 @@
 window.addEventListener("load", function () {
     const page = window.location.pathname.substring(1);
     const rootElement = document.getElementById("root");
+
+    const searchBox = document.getElementById("form-control");
+    const searchButton = document.getElementById("searchButton");
+
+    
+    function toggleSearchButton() {
+        if (searchBox.value.trim() !== "") {
+            searchButton.disabled = false;
+            searchButton.style.backgroundColor = "purple"; 
+        } else {
+            searchButton.disabled = true;
+            searchButton.style.backgroundColor = "#007bff"; 
+        }
+    }
+
+   
+    searchBox.addEventListener("input", function() {
+        toggleSearchButton();
+    });
+
+    
+    searchButton.addEventListener("click", function() {
+        console.log("Search button clicked!");
+    });
+
+
     console.log(page);
     if (page == "") {
         const apiKey = `e39de4c3c1c2758867914877e0dea313`;
