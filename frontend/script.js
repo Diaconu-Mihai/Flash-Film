@@ -17,25 +17,86 @@ window.addEventListener("load", function () {
                 userNames.push(user.username)
                 emails.push(user.email)
             })
-            if (page == "") {
+            if (page == "movieDetails") {
 
                 const apiKey = `e39de4c3c1c2758867914877e0dea313`
-                const movieTitle = `Avatar`;
-                const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(movieTitle)}`
+                const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
 
+                fetch(movieDetailsUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const movie = data;
+                        console.log(data);
+
+                        const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
+                        rootElement.insertAdjacentHTML("beforeend",
+                            ` <div class="movie-details">
+                                <h2>${movie.title}</h2>
+                                <div class="poster-container">
+                                    <img src="${posterUrl}" class="poster">
+                                    <iframe src="https://www.youtube.com/embed/${movie.videos.results[5].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+                                </div>
+                                <button class="rateReview-btn">Rate & Review</button>
+                                <button class="wishlist-btn">Add to Wishlist</button>
+                                <p>Rating ${movie.vote_average}</p>
+                                <div class="description">
+                                    <p>Description:</p>
+                                    <p>${movie.overview}</p>
+                                </div>
+                                <h3>Cast:</h3>
+                                <div class="cast-container">
+                                    ${movie.credits.cast.slice(0, 6).map(actor => `
+                                        <div class="actor">
+                                            <img src="https://image.tmdb.org/t/p/w185${actor.profile_path}" class="actor-image">
+                                            <p class="actor-name">${actor.name}</p>
+                                        </div>`).join('')}
+                                    <div class="hidden-actors">
+                                        ${movie.credits.cast.slice(6).map(actor => `
+                                            <div class="actor">
+                                                <img src="https://image.tmdb.org/t/p/w185${actor.profile_path}" class="actor-image">
+                                                <p class="actor-name">${actor.name}</p>
+                                            </div>`).join('')}
+                                    </div>
+                                
+                                </div>
+                                <button class="more-btn">More</button>
+                                <h3>Critics reviews:</h3>
+                                <ul class="critics-reviews-list">
+                                    ${movie.reviews.results.map(review => `<li>${review.content}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `);
+
+                        const rateReviewBtn = rootElement.querySelector('.rateReview-btn');
+                        const wishlistBtn = rootElement.querySelector('.wishlist-btn');
+                        const moreBtn = rootElement.querySelector('.more-btn');
+                        const hiddenActors = rootElement.querySelector('.hidden-actors');
+
+                        rateReviewBtn.addEventListener('click', () => {
+                            console.log('Review button clicked');
+                        });
+
+                        wishlistBtn.addEventListener('click', () => {
+                            console.log('Wishlist button clicked');
+                        });
+
+                        moreBtn.addEventListener('click', () => {
+                            hiddenActors.classList.toggle('show');
+                            moreBtn.textContent = hiddenActors.classList.contains('show') ? 'Less' : 'More';
+                        });
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
+            
                 fetch(apiUrl)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data)
-                        rootElement.innerHTML = "Flash Film"
-                        const movie = data.results[0]
-                        rootElement.insertAdjacentHTML('beforeend',
-                            `
-                            <h2>${movie.title}</h2>
-                            <p>${movie.overview}</p>
-                            <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" alt="${movie.title} Poster">
-                            `
-                        )
+                        const movieId = data.results[9].id;
+                        showMovieDetails(movieId);
                     })
                     .catch(error => {
                         console.log(error)
@@ -45,22 +106,22 @@ window.addEventListener("load", function () {
                 rootElement.innerHTML = ""
                 rootElement.insertAdjacentHTML('beforeend',
                     `
-                    <h2>Create New User</h2>
-                    <form id="newUserForm">
-                        <label>Name:</label>
-                        <input type="text" id="name" required><br>
-                        <label>Surname:</label>
-                        <input type="text" id="surname" required><br>
-                        <label>Username:</label>
-                        <input type="text" id="username" required><br>
-                        <label>Email:</label>
-                        <input type="email" id="email" required><br>
-                        <label>Password:</label>
-                        <input type="password" id="password" required><br>
-                        <button type="submit">Create User</button>
-                    </form>
-                    <div id="message"></div>
-                    `
+                            <h2>Create New User</h2>
+                            <form id="newUserForm">
+                                <label>Name:</label>
+                                <input type="text" id="name" required><br>
+                                <label>Surname:</label>
+                                <input type="text" id="surname" required><br>
+                                <label>Username:</label>
+                                <input type="text" id="username" required><br>
+                                <label>Email:</label>
+                                <input type="email" id="email" required><br>
+                                <label>Password:</label>
+                                <input type="password" id="password" required><br>
+                                <button type="submit">Create User</button>
+                            </form>
+                            <div id="message"></div>
+                            `
                 )
 
                 const form = document.getElementById("newUserForm")
@@ -115,8 +176,8 @@ window.addEventListener("load", function () {
                     }
                 })
             }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
 })
