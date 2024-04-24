@@ -1,0 +1,60 @@
+{
+  "admins": [
+    {
+      "id": 1,
+      "name": "Mihai",
+      "surname": "Diaconu",
+      "username": "Waleed6000",
+      "email": "mihai_bosu8@yahoo.com",
+      "password": "DMAB2020",
+      "favmovies": []
+    },
+    {
+      "id": 2,
+      "name": "Andreea",
+      "surname": "Daescu",
+      "username": "Andreea",
+      "email": "",
+      "password": "12345678",
+      "favmovies": []
+    },
+    {
+      "id": 3,
+      "name": "Evelyn",
+      "surname": "Badescu",
+      "username": "Evelyn",
+      "email": "",
+      "password": "12345678",
+      "favmovies": []
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Marius",
+      "surname": "Popescu",
+      "username": "Marius",
+      "email": "popescu.marius11@yahoo.com",
+      "password": "12345678",
+      "favmovies": []
+    },
+    {
+      "id": 2,
+      "name": "Gheorghe",
+      "surname": "Gugu",
+      "username": "Gheorghe",
+      "email": "gugu_gheorghe13@yahoo.com",
+      "password": "12345678",
+      "favmovies": []
+    },
+    {
+      "id": 3,
+      "name": "Mihai",
+      "surname": "Dobre",
+      "username": "mihai.diaconu21",
+      "email": "mihai_bosu11@yahoo.com",
+      "password": "DMAb2121",
+      "favmovies": []
+    }
+  ]
+}
