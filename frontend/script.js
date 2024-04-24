@@ -17,7 +17,8 @@ window.addEventListener("load", function () {
                 userNames.push(user.username)
                 emails.push(user.email)
             })
-            if (page === "movieDetails") {
+
+            if (page === "home") {
 
                 const apiKey = `e39de4c3c1c2758867914877e0dea313`
                 const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
@@ -31,17 +32,20 @@ window.addEventListener("load", function () {
                             const movie = data;
                             console.log(data);
 
-                            const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+                            const posterUrl = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
+                            
+                            let trailer = movie.videos.results.length-1;
+                            console.log(trailer);
 
                             rootElement.insertAdjacentHTML("beforeend",
                                 ` <div class="movie-details">
                                     <h2>${movie.title}</h2>
                                     <div class="poster-container">
                                         <img src="${posterUrl}" class="poster">
-                                        <iframe src="https://www.youtube.com/embed/${movie.videos.results[1].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+                                        <iframe src="https://www.youtube.com/embed/${movie.videos.results[trailer].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
                                     </div>
                                     <button class="rateReview-btn">Rate & Review</button>
-                                    <button class="wishlist-btn">Add to Wishlist</button>
+                                    <button class="watchlist-btn">Add to Watchlist</button>
                                     <p>Rating ${movie.vote_average}</p>
                                     <div class="description">
                                         <p>Description:</p>
@@ -72,7 +76,7 @@ window.addEventListener("load", function () {
                             `);
 
                             const rateReviewBtn = rootElement.querySelector('.rateReview-btn');
-                            const wishlistBtn = rootElement.querySelector('.wishlist-btn');
+                            const watchlistBtn = rootElement.querySelector('.watchlist-btn');
                             const moreBtn = rootElement.querySelector('.more-btn');
                             const hiddenActors = rootElement.querySelector('.hidden-actors');
 
@@ -80,8 +84,8 @@ window.addEventListener("load", function () {
                                 console.log('Review button clicked');
                             });
 
-                            wishlistBtn.addEventListener('click', () => {
-                                console.log('Wishlist button clicked');
+                            watchlistBtn.addEventListener('click', () => {
+                                console.log('Watchlist button clicked');
                             });
 
                             moreBtn.addEventListener('click', () => {
@@ -98,7 +102,7 @@ window.addEventListener("load", function () {
                 fetch(apiUrl)
                     .then(response => response.json())
                     .then(data => {
-                        const movieId = data.results[3].id;
+                        const movieId = data.results[7].id;
                         showMovieDetails(movieId);
                     })
                     .catch(error => {

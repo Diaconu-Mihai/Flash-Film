@@ -42,7 +42,7 @@ app.post('/newuser', (req, res) => {
 })
 
 
-app.get(["/", "/newuser"], (req, res) => {
+app.get(["/home", "/newuser"], (req, res) => {
     res.render("index")
 })
 app.get("/admins", (req, res) => {
@@ -52,11 +52,7 @@ app.get("/users", (req, res) => {
     res.send(users)
 })
 
-app.get(["/", "/movieDetails"], (req, res) => {
-    res.render("index");
-});
-
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
-    console.log(`http://localhost:${3000}`)
+    console.log(`http://localhost:${3000}/home`)
 })
