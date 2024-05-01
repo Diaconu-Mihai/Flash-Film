@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css" />
 </head>
-    <nav>
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/newuser">New User</a></li>
-            <li>
-                <form id="searchForm">
-                    <input id="searchBar" type="text" placeholder="Search...">
-                    <button id="searchButton" type="submit" disabled>Search</button>
-                </form>
-            </li>
-        </ul>
-    </nav>
-	<%- body%>
-</body>
+
+<div class="navbar">
+    <div class="navbar-left">
+        <img src="/logo" alt="Logo FlashFilm">
+        <p>FlashFilm</p>
+    </div>
+    <div class="navbar-center">
+        <div class="searchBar">
+            <form id="searchForm">
+                <input id="searchInput" type="text" placeholder="Search...">
+                <button id="searchButton" type="submit" disabled>Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="navbar-right">
+        <button id="SignUpButton" type="submit" disabled><a href="/newuser">Sign Up</a></button>
+        <button id="LogInButton" type="submit" disabled><a href="/newuser">Log In</a></button>
+    </div>
+</div>
+
+<footer>
+    <div id="footer">
+        <p>© 2024 FlashFilm. All rights reserved.</p>
+    </div>
+</footer>
+
+<%- body%>
+    </body>
+
 </html>

@@ -1,4 +1,14 @@
 window.addEventListener("load", function () {
+    window.addEventListener("scroll", function () {
+        var footer = document.getElementById("footer");
+        var scrollPosition = window.scrollY || (document.documentElement || document.body.parentNode || document.body).scrollTop || 0;
+
+        if (scrollPosition > 100) { // Poți ajusta această valoare în funcție de cât de mult trebuie să facă scroll utilizatorul pentru a face footer-ul vizibil
+            footer.style.bottom = "0";
+        } else {
+            footer.style.bottom = "-100px";
+        }
+    });
     const page = window.location.pathname.substring(1)
     const rootElement = document.getElementById("root")
     let userNames = []
@@ -32,25 +42,37 @@ window.addEventListener("load", function () {
                             const movie = data;
                             console.log(data);
 
-                            const posterUrl = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
-                            
-                            let trailer = movie.videos.results.length-1;
+                            const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
+                            let trailer = movie.videos.results.length - 1;
                             console.log(trailer);
+
+                            const genres = movie.genres.map(genre => genre.name).join(', ');
 
                             rootElement.insertAdjacentHTML("beforeend",
                                 ` <div class="movie-details">
-                                    <h2>${movie.title}</h2>
+                                    <h1>${movie.title}</h1>
                                     <div class="poster-container">
                                         <img src="${posterUrl}" class="poster">
                                         <iframe src="https://www.youtube.com/embed/${movie.videos.results[trailer].key}" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
                                     </div>
                                     <button class="rateReview-btn">Rate & Review</button>
                                     <button class="watchlist-btn">Add to Watchlist</button>
-                                    <p>Rating ${movie.vote_average}</p>
+                                    <h3>Rating ${movie.vote_average}</h3>
+                                
                                     <div class="description">
-                                        <p>Description:</p>
+                                        <h3>Description: </h3>
                                         <p>${movie.overview}</p>
                                     </div>
+
+                                    <div class="release-date">
+                                        <h3>Release Date: ${movie.release_date}</h3>
+                                    </div>
+
+                                    <h3>Genres: ${genres}</h3>
+
+                                    <h3>Runtime: ${movie.runtime} minutes</h3>
+
                                     <h3>Cast:</h3>
                                     <div class="cast-container">
                                         ${movie.credits.cast.slice(0, 6).map(actor => `
@@ -102,7 +124,7 @@ window.addEventListener("load", function () {
                 fetch(apiUrl)
                     .then(response => response.json())
                     .then(data => {
-                        const movieId = data.results[7].id;
+                        const movieId = data.results[4].id;
                         showMovieDetails(movieId);
                     })
                     .catch(error => {
@@ -183,8 +205,8 @@ window.addEventListener("load", function () {
                     }
                 })
             }
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 })
