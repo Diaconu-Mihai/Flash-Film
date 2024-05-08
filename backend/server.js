@@ -52,6 +52,10 @@ app.get("/users", (req, res) => {
     res.send(users)
 })
 
+app.get("/logo", (req, res) => {
+    res.sendFile(path.join(__dirname, 'logo.png'));
+})
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
     console.log(`http://localhost:${3000}/home`)
