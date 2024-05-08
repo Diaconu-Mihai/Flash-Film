@@ -34,12 +34,11 @@
   justify-content:center;
 }
 
-.searchBar {
-  margin-left: 10px;
-}
+
 
 #searchForm {
   display: flex;
+  margin-left: 10px;
 }
 
 #searchInput {
@@ -217,4 +216,32 @@ h1 {
   width: 100%;
   transition: bottom 0.3;
   line-height: 2px;
+}
+
+/* Movie grid container */
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+/* Individual movie */
+.movie {
+  text-align: center;
+}
+
+/* Movie poster */
+.movie-poster {
+  width: 80%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Movie title */
+.movie-title {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
