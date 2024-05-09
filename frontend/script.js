@@ -59,11 +59,13 @@ window.addEventListener("load", function () {
                                     <h1>${movie.title}</h1>
                                     <div class="poster-container">
                                         <img src="${posterUrl}" class="poster">
-                                        <iframe src="https://www.youtube.com/embed/${
-                                          movie.videos.results[trailer].key
-                                        }" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
+                                        <iframe src="https://www.youtube.com/embed/${movie.videos.results[trailer].key
+                }" class="trailer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ></iframe>
                                     </div>
-                                    <button class="rateReview-btn">Rate & Review</button>
+
+                                    <div class="rate-review-btn">
+                                      <button class="rateReview-btn">Rate & Review</button>
+                                    </div>
                                     <button class="watchlist-btn">Add to Watchlist</button>
                                     <h3>Rating ${movie.vote_average}</h3>
                                 
@@ -73,9 +75,8 @@ window.addEventListener("load", function () {
                                     </div>
 
                                     <div class="release-date">
-                                        <h3>Release Date: ${
-                                          movie.release_date
-                                        }</h3>
+                                        <h3>Release Date: ${movie.release_date
+                }</h3>
                                     </div>
 
                                     <h3>Genres: ${genres}</h3>
@@ -85,26 +86,26 @@ window.addEventListener("load", function () {
                                     <h3>Cast:</h3>
                                     <div class="cast-container">
                                         ${movie.credits.cast
-                                          .slice(0, 6)
-                                          .map(
-                                            (actor) => `
+                  .slice(0, 6)
+                  .map(
+                    (actor) => `
                                             <div class="actor">
                                                 <img src="https://image.tmdb.org/t/p/w185${actor.profile_path}" class="actor-image">
                                                 <p class="actor-name">${actor.name}</p>
                                             </div>`
-                                          )
-                                          .join("")}
+                  )
+                  .join("")}
                                         <div class="hidden-actors">
                                             ${movie.credits.cast
-                                              .slice(6)
-                                              .map(
-                                                (actor) => `
+                  .slice(6)
+                  .map(
+                    (actor) => `
                                                 <div class="actor">
                                                     <img src="https://image.tmdb.org/t/p/w185${actor.profile_path}" class="actor-image">
                                                     <p class="actor-name">${actor.name}</p>
                                                 </div>`
-                                              )
-                                              .join("")}
+                  )
+                  .join("")}
                                         </div>
                                     
                                     </div>
@@ -112,24 +113,51 @@ window.addEventListener("load", function () {
                                     <h3>Critics reviews:</h3>
                                     <ul class="critics-reviews-list">
                                         ${movie.reviews.results
-                                          .map(
-                                            (review) =>
-                                              `<li>${review.content}</li>`
-                                          )
-                                          .join("")}
+                  .map(
+                    (review) =>
+                      `<li>${review.content}</li>`
+                  )
+                  .join("")}
                                     </ul>
                                 </div>
                             `
               );
 
-              const rateReviewBtn =
-                rootElement.querySelector(".rateReview-btn");
+              const rateReviewBtn = rootElement.querySelector(".rateReview-btn");
               const watchlistBtn = rootElement.querySelector(".watchlist-btn");
               const moreBtn = rootElement.querySelector(".more-btn");
               const hiddenActors = rootElement.querySelector(".hidden-actors");
 
               rateReviewBtn.addEventListener("click", () => {
                 console.log("Review button clicked");
+
+                const rateReviewBtn = rootElement.querySelector('.rateReview-btn');
+                const watchlistBtn = rootElement.querySelector('.watchlist-btn');
+                const moreBtn = rootElement.querySelector('.more-btn');
+                const hiddenActors = rootElement.querySelector('.hidden-actors');
+
+                rateReviewBtn.addEventListener('click', function () {
+                  if (document.getElementById('reviewDialog')) {
+                    document.getElementById('reviewDialog').remove();
+                  }
+
+                  let reviewDialog = document.createElement('div');
+                  reviewDialog.id = 'reviewDialog';
+                  reviewDialog.classList.add('review-dialog');
+                  reviewDialog.style.position = 'absolute';
+                  reviewDialog.innerHTML = `
+                                    <form id="reviewForm">
+                                        <label for="review">Review:</label>
+                                        <textarea id="review" rows="4" cols="50"></textarea><br>
+                                        <label for="rating">Rating (1-10):</label>
+                                        <input type="number" id="rating" min="1" max="10" required><br>
+                                        <button type="submit">Submit Review</button>
+                                    </form>
+                                `;
+                  const movieDetails = rootElement.querySelector('.rate-review-btn');
+                  movieDetails.appendChild(reviewDialog);
+                });
+
               });
 
               watchlistBtn.addEventListener("click", () => {
@@ -158,7 +186,7 @@ window.addEventListener("load", function () {
         fetch(apiUrl)
           .then((response) => response.json())
           .then((data) => {
-            
+
             const movies = data.results.slice(0, 9);
             // console.log(data);
             rootElement.innerHTML = `<div class="movies-grid"></div>`;
@@ -192,68 +220,68 @@ window.addEventListener("load", function () {
             console.log(error);
           });
 
-          searchBar.addEventListener("input", function () {
-            if (searchBar.value.length >= 3) {
-              searchButton.disabled = false;
-            } else {
-              searchButton.disabled = true;
-            }
-          });
-  
-          const searchForm = document.getElementById("searchForm");
-          searchForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            rootElement.innerHTML = "";
-            movieTitle = searchBar.value;
-            console.log(movieTitle);
-  
-            const apiUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
-              movieTitle
-            )}`;
-  
-            
-  
-            
-            fetch(apiUrlMovie)
-              .then((response) => response.json())
-              .then((data) => {
-               
-                const searchResults = data.results.slice(0, 9); 
-                rootElement.innerHTML = `<div class="movies-grid"></div>`; 
-                const moviesGrid = document.querySelector(".movies-grid");
-  
-                
-                searchResults.forEach((movie) => {
-                  const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-                  moviesGrid.insertAdjacentHTML(
-                    "beforeend",
-                    `<div class="movie" data-movie-id="${movie.id}">
+        searchBar.addEventListener("input", function () {
+          if (searchBar.value.length >= 3) {
+            searchButton.disabled = false;
+          } else {
+            searchButton.disabled = true;
+          }
+        });
+
+        const searchForm = document.getElementById("searchForm");
+        searchForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          rootElement.innerHTML = "";
+          movieTitle = searchBar.value;
+          console.log(movieTitle);
+
+          const apiUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
+            movieTitle
+          )}`;
+
+
+
+
+          fetch(apiUrlMovie)
+            .then((response) => response.json())
+            .then((data) => {
+
+              const searchResults = data.results.slice(0, 9);
+              rootElement.innerHTML = `<div class="movies-grid"></div>`;
+              const moviesGrid = document.querySelector(".movies-grid");
+
+
+              searchResults.forEach((movie) => {
+                const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+                moviesGrid.insertAdjacentHTML(
+                  "beforeend",
+                  `<div class="movie" data-movie-id="${movie.id}">
           <img src="${posterUrl}" alt="${movie.title}" class="movie-poster">
           <p class="movie-title">${movie.title}</p>
         </div>`
-                  );
-                });
-  
-                // Attach click event listener to each movie
-                const movieElements = document.querySelectorAll(".movie");
-  
-                movieElements.forEach((movieElement) => {
-                  movieElement.addEventListener("click", function () {
-                    const movieId = this.getAttribute("data-movie-id");
-                    rootElement.innerHTML = "";
-                    showMovieDetails(movieId);
-                  });
-                });
-  
-                if(data.results==""){
-                  rootElement.innerHTML="No results found for your search criteria";
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-               
+                );
               });
-          });
+
+              // Attach click event listener to each movie
+              const movieElements = document.querySelectorAll(".movie");
+
+              movieElements.forEach((movieElement) => {
+                movieElement.addEventListener("click", function () {
+                  const movieId = this.getAttribute("data-movie-id");
+                  rootElement.innerHTML = "";
+                  showMovieDetails(movieId);
+                });
+              });
+
+              if (data.results == "") {
+                rootElement.innerHTML = "No results found for your search criteria";
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+
+            });
+        });
       } else if (page == "newuser") {
         rootElement.innerHTML = "";
         rootElement.insertAdjacentHTML(

@@ -149,6 +149,16 @@ h1 {
   background-color: #4a0101;
 }
 
+.review-dialog {
+  position: absolute;
+  background-color: #000000;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: all 0.3s;
+}
+
 .cast-container {
   display: flex;
   flex-wrap: wrap;
