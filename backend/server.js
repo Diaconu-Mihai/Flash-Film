@@ -41,8 +41,7 @@ app.post('/newuser', (req, res) => {
     })
 })
 
-
-app.get(["/home", "/newuser"], (req, res) => {
+app.get(["/home", "/newuser", "/login"], (req, res) => {
     res.render("index")
 })
 app.get("/admins", (req, res) => {

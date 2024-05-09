@@ -49,7 +49,7 @@
   margin-right: 5px;
 }
 
-#searchButton, #SignUpButton, #LogInButton{
+#searchButton, #SignUpButton, #LogInButton {
   padding: 10px 10px;
   border-radius: 5px;
   background-color: #770202;
@@ -244,4 +244,37 @@ h1 {
   margin-top: 10px;
   font-size: 16px;
   font-weight: bold;
+}
+
+#name, #surname, #username, #email, #password {
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid #9d0909;
+  width: 250px;
+  margin-right: 5px;
+}
+
+label {
+  display: inline-block;
+  width: 100px; /* Adjust the width as needed */
+  text-align: right;
+  margin-right: 10px; /* Adjust as needed for spacing */
+}
+
+#createUser, #loginButton {
+  margin: 15px auto; 
+  padding: 10px 10px;
+  border-radius: 5px;
+  background-color: #770202;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: block; /* Ensure the buttons are block-level elements */
+  width: fit-content; /* Adjust the width to fit the content */
+}
+
+#newUserForm, #loginForm {
+  background-color: rgb(53, 53, 53); /* Adjust the color code as needed */
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 5px; /* Adjust border radius as needed */
 }
