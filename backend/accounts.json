@@ -1,5 +1,5 @@
 {
-  "admins": [
+  "users": [
     {
       "id": 1,
       "name": "Mihai",
@@ -7,7 +7,15 @@
       "username": "Waleed6000",
       "email": "mihai_bosu8@yahoo.com",
       "password": "DMAB2020",
-      "favmovies": []
+      "favmovies": [
+        "Kingdom of the Planet of the Apes",
+        "Furiosa: A Mad Max Saga",
+        "John Wick: Chapter 4",
+        "Avengers: Infinity War",
+        "Avengers: Endgame",
+        "The Avengers",
+        "Interstellar"
+      ]
     },
     {
       "id": 2,
@@ -26,34 +34,41 @@
       "email": "evelynbadescu980@gmail.com",
       "password": "Kiwi89",
       "favmovies": []
-    }
-  ],
-  "users": [
+    },
     {
-      "id": 1,
-      "name": "Marius",
-      "surname": "Popescu",
-      "username": "Marius",
-      "email": "popescu.marius11@yahoo.com",
-      "password": "12345678",
+      "id": 4,
+      "name": "gsdgsdgsdg",
+      "surname": "gsgsdgsdg",
+      "username": "Waleed6000t",
+      "email": "Brnalbert17@gmail.com",
+      "password": "DMABhbhj43421",
       "favmovies": []
     },
     {
-      "id": 2,
-      "name": "Gheorghe",
-      "surname": "Gugu",
-      "username": "Gheorghe",
-      "email": "gugu_gheorghe13@yahoo.com",
-      "password": "12345678",
+      "id": 5,
+      "name": "gsdgsdgsdg",
+      "surname": "gsgsdgsdg",
+      "username": "Waleed6000tr",
+      "email": "Brnalbert17@gmail.com",
+      "password": "DMABhbhj43421",
       "favmovies": []
     },
     {
-      "id": 3,
-      "name": "Mihai",
-      "surname": "Dobre",
-      "username": "mihai.diaconu21",
-      "email": "mihai_bosu11@yahoo.com",
-      "password": "DMAb2121",
+      "id": 6,
+      "name": "wegsdgdfg",
+      "surname": "twergsgds",
+      "username": "twgsdgs",
+      "email": "Robert.christianwwr@gmail.com",
+      "password": "VDSSVBbfdbdf3432532",
+      "favmovies": []
+    },
+    {
+      "id": 7,
+      "name": "vbdffbdafsb",
+      "surname": "fewgrdag",
+      "username": "gfdgdfge",
+      "email": "mihai_bosu1@yahoo.com",
+      "password": "fsdgsdFFrw35w332",
       "favmovies": []
     }
   ]

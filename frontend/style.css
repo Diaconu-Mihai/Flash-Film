@@ -49,7 +49,7 @@
   margin-right: 5px;
 }
 
-#searchButton, #SignUpButton, #LogInButton {
+#searchButton, #SignUpButton, #LogInButton, #logoutButton, #favoriteButton, #submitButton {
   padding: 10px 10px;
   border-radius: 5px;
   background-color: #770202;
@@ -277,4 +277,19 @@ label {
   background-color: rgb(53, 53, 53); /* Adjust the color code as needed */
   padding: 20px; /* Adjust padding as needed */
   border-radius: 5px; /* Adjust border radius as needed */
+}
+
+.review-dialog {
+  background-color: #000000;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: all 0.3s;
+}
+
+#review, #rating {
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid #9d0909;
 }
