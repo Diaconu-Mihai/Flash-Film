@@ -14,6 +14,43 @@ window.addEventListener("load", function () {
       footer.style.bottom = "-100px";
     }
   });
+
+
+let genre = "None"
+  var filterButton = document.getElementById("filterButton");
+  var filterPopup = document.getElementById("filterPopup");
+
+  // Move the filter button to the left side of the search bar
+  var navbarCenter = document.querySelector(".navbar-center");
+  navbarCenter.insertBefore(filterButton, navbarCenter.firstChild);
+  var closeButton = filterPopup.querySelector(".close");
+  
+
+  filterButton.addEventListener("click", function () {
+    
+    // Position the popup below the filter button
+    var filterButtonRect = filterButton.getBoundingClientRect();
+    filterPopup.style.left = filterButtonRect.left + "px";
+    filterPopup.style.top =
+      filterButtonRect.bottom + window.scrollY + "px";
+
+    filterPopup.style.display = "block";
+  });
+
+  closeButton.addEventListener("click", function () {
+    filterPopup.style.display = "none";
+  });
+
+  // Ascunde popup-ul când se face clic în afara acestuia
+  window.addEventListener("click", function (event) {
+    if (event.target == filterPopup) {
+      filterPopup.style.display = "none";
+    }
+  });
+
+  const formFilter = document.getElementById("formFilter");
+  
+
   const page = window.location.pathname.substring(1);
   const rootElement = document.getElementById("root");
   let userNames = [];
@@ -148,112 +185,123 @@ window.addEventListener("load", function () {
             });
         }
 
+        function showMovies(url) {
+          fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              const movies = data.results.slice(0, 9);
+              rootElement.innerHTML = `<div class="movies-grid"></div>`;
+
+              const moviesGrid = document.querySelector(".movies-grid");
+
+              movies.forEach((movie) => {
+                const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
+                moviesGrid.insertAdjacentHTML(
+                  "beforeend",
+                  `<div class="movie" data-movie-id="${movie.id}">
+                  <img src="${posterUrl}" alt="${movie.title}" class="movie-poster">
+                  <p class="movie-title">${movie.title}</p>
+                </div>`
+                );
+              });
+
+              const movieElements = document.querySelectorAll(".movie");
+              movieElements.forEach((movieElement) => {
+                movieElement.addEventListener("click", function () {
+                  const movieId = this.getAttribute("data-movie-id");
+                  console.log(movieId);
+                  rootElement.innerHTML = "";
+                  showMovieDetails(movieId);
+                });
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+
         let movieTitle = `Avatar`;
         const searchBar = document.getElementById("searchInput");
         const searchButton = document.getElementById("searchButton");
         console.log(searchButton);
 
-        const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
+        var apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
+        
 
-        fetch(apiUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            
-            const movies = data.results.slice(0, 9);
-            // console.log(data);
-            rootElement.innerHTML = `<div class="movies-grid"></div>`;
+        showMovies(apiUrl);
 
-            const moviesGrid = document.querySelector(".movies-grid");
+        formFilter.addEventListener("submit", function (event) {
+          event.preventDefault();
+          console.log(formFilter.elements.selectGenre.options[formFilter.elements.selectGenre.selectedIndex]);
+          var idGenre= formFilter.elements.selectGenre.options[formFilter.elements.selectGenre.selectedIndex].id;
+          var minLength=formFilter.elements.runtimeMin.value;
+          var maxLength=formFilter.elements.runtimeMax.value;
+          var minRating = formFilter.elements.ratingMin.value; 
+          var maxRating = formFilter.elements.ratingMax.value; 
+          var minYear = formFilter.elements.yearMin.value; 
+          var maxYear = formFilter.elements.yearMax.value; 
+         
 
-            movies.forEach((movie) => {
-              const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+          apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
+         
+          if (formFilter.elements.selectGenre.value !== "None") {
+            apiUrl += `&with_genres=${idGenre}`;
+        }
 
-              moviesGrid.insertAdjacentHTML(
-                "beforeend",
-                `<div class="movie" data-movie-id="${movie.id}">
-                        <img src="${posterUrl}" alt="${movie.title}" class="movie-poster">
-                        <p class="movie-title">${movie.title}</p>
-                    </div>`
-              );
-            });
+        if(minLength !== "" && maxLength !== ""){
+          apiUrl += `&with_runtime.gte=${minLength}&with_runtime.lte=${maxLength}`;
+      } else if(minLength !== ""){
+          apiUrl += `&with_runtime.gte=${minLength}`;
+      } else if(maxLength !== ""){
+          apiUrl += `&with_runtime.lte=${maxLength}`;
+      }
 
-            const movieElements = document.querySelectorAll(".movie");
-            //console.log(movieElements);
-            movieElements.forEach((movieElement) => {
-              movieElement.addEventListener("click", function () {
-                const movieId = this.getAttribute("data-movie-id");
-                console.log(movieId);
-                rootElement.innerHTML = "";
-                showMovieDetails(movieId);
-              });
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        if (minRating !== "" && maxRating !== "") { 
+          apiUrl += `&vote_average.gte=${minRating}&vote_average.lte=${maxRating}`;
+        } else if (minRating !== "") {
+          apiUrl += `&vote_average.gte=${minRating}`;
+        } else if (maxRating !== "") {
+          apiUrl += `&vote_average.lte=${maxRating}`;
+        }
 
-          searchBar.addEventListener("input", function () {
-            if (searchBar.value.length >= 3) {
-              searchButton.disabled = false;
-            } else {
-              searchButton.disabled = true;
-            }
-          });
-  
-          const searchForm = document.getElementById("searchForm");
-          searchForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            rootElement.innerHTML = "";
-            movieTitle = searchBar.value;
-            console.log(movieTitle);
-  
-            const apiUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
-              movieTitle
-            )}`;
-  
-            
-  
-            
-            fetch(apiUrlMovie)
-              .then((response) => response.json())
-              .then((data) => {
-               
-                const searchResults = data.results.slice(0, 9); 
-                rootElement.innerHTML = `<div class="movies-grid"></div>`; 
-                const moviesGrid = document.querySelector(".movies-grid");
-  
-                
-                searchResults.forEach((movie) => {
-                  const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-                  moviesGrid.insertAdjacentHTML(
-                    "beforeend",
-                    `<div class="movie" data-movie-id="${movie.id}">
-          <img src="${posterUrl}" alt="${movie.title}" class="movie-poster">
-          <p class="movie-title">${movie.title}</p>
-        </div>`
-                  );
-                });
-  
-                // Attach click event listener to each movie
-                const movieElements = document.querySelectorAll(".movie");
-  
-                movieElements.forEach((movieElement) => {
-                  movieElement.addEventListener("click", function () {
-                    const movieId = this.getAttribute("data-movie-id");
-                    rootElement.innerHTML = "";
-                    showMovieDetails(movieId);
-                  });
-                });
-  
-                if(data.results==""){
-                  rootElement.innerHTML="No results found for your search criteria";
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-               
-              });
-          });
+        if (minYear !== "" && maxYear !== "") { 
+          apiUrl += `&primary_release_year=${minYear}:${maxYear}`;
+        } else if (minYear !== "") {
+          apiUrl += `&primary_release_year=${minYear}`;
+        } else if (maxYear !== "") {
+          apiUrl += `&primary_release_year=${maxYear}`;
+        }
+
+        
+
+        
+    
+          showMovies(apiUrl);
+        });
+
+        searchBar.addEventListener("input", function () {
+          if (searchBar.value.length >= 3) {
+            searchButton.disabled = false;
+          } else {
+            searchButton.disabled = true;
+          }
+        });
+
+        const searchForm = document.getElementById("searchForm");
+        searchForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          rootElement.innerHTML = "";
+          movieTitle = searchBar.value;
+          console.log(movieTitle);
+
+          const apiUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
+            movieTitle
+          )}`;
+
+          showMovies(apiUrlMovie);
+        });
       } else if (page == "newuser") {
         rootElement.innerHTML = "";
         rootElement.insertAdjacentHTML(

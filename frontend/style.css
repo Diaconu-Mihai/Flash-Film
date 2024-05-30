@@ -28,6 +28,12 @@
   display: inline;
 }
 
+.navbar-left p a {
+  text-decoration: none; 
+  color: inherit; 
+}
+
+
 .navbar-center {
   flex: 1; /* Ocupă spațiul disponibil între stânga și dreapta */
   display:flex;
@@ -49,7 +55,7 @@
   margin-right: 5px;
 }
 
-#searchButton, #SignUpButton, #LogInButton{
+#searchButton, #SignUpButton, #LogInButton,#filterButton{
   padding: 10px 10px;
   border-radius: 5px;
   background-color: #770202;
@@ -244,4 +250,87 @@ h1 {
   margin-top: 10px;
   font-size: 16px;
   font-weight: bold;
+}
+
+/*pop up*/
+
+.popup {
+  display: none;
+  position: absolute;
+  background-color: #000000;
+  border: 1px solid #494242;
+  z-index: 1;
+}
+
+.popup-content {
+  padding: 20px;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+}
+
+.popup-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.popup-content ul li {
+  margin-bottom: 10px;
+}
+
+.popup-content ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.popup-content ul li a:hover {
+  text-decoration: underline;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+}
+
+#runtimeMin,
+#runtimeMax,
+#ratingMin,
+#ratingMax,
+#yearMin,
+#yearMax {
+  width: 80px;
+  margin-right: 10px;
+}
+
+/*apply button*/
+
+#applyFilter {
+  width: 4em; /* Adjusted width */
+  height: 1.5em; /* Adjusted height */
+  border-radius: 30em;
+  font-size: 12px;
+  font-family: inherit;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+ 
+#applyFilter::before {
+  content: '';
+  width: 0;
+  height: 1.5em; /* Adjusted height */
+  border-radius: 30em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(to right, #ff5050 0%, #ffaaaa 100%); /* Changed color to red */
+  transition: .5s ease;
+  display: block;
+  z-index: -1;
+}
+ 
+#applyFilter:hover::before {
+  width: 4em; /* Adjusted width */
 }

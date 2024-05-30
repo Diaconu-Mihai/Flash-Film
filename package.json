@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon backend/server.js"
+    "devStart": "nodemon backend/server.js",
+    "test":"jest"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.0"
   }
 }
