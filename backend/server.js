@@ -14,6 +14,7 @@ app.use(bodyParser.json())
 
 let accounts
 let users
+let reviews
 
 
 
@@ -21,6 +22,14 @@ fileReaderAsync(path.join(__dirname, 'accounts.json'))
     .then(data => {
         accounts = data;
         users = data.users;
+    })
+    .catch(error => {
+        console.error('Error reading accounts file:', error);
+    });
+
+fileReaderAsync(path.join(__dirname, 'reviews.json'))
+    .then(data => {
+        reviews = data.reviews;
     })
     .catch(error => {
         console.error('Error reading accounts file:', error);
@@ -79,6 +88,21 @@ app.post('/watchlist/remove', (req, res) => {
     }
 });
 
+app.post('/reviews/add', (req, res) => {
+    const newReview = req.body;
+    //newReview.id = reviews.length + 1;
+    reviews.push(newReview);
+    console.log(reviews)
+    fs.writeFile('backend/reviews.json', JSON.stringify(reviews, null, 2), 'utf8', (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+        res.json({ message: 'Review added successfully', review: newReview });
+    });
+});
+
 
 app.get(["/home", "/newuser", "/login"], (req, res) => {
     res.render("index")
@@ -86,6 +110,8 @@ app.get(["/home", "/newuser", "/login"], (req, res) => {
 app.get("/users", (req, res) => {
     res.send(users)
 })
+
+
 
 app.get("/logo", (req, res) => {
     res.sendFile(path.join(__dirname, 'logo.png'));

@@ -29,7 +29,7 @@ function showMovieDetails(movieId, rootElement) {
         </div>
         <div id="reviews">Reviews: </div> 
         <div class="rate-review-btn">
-        ${loggedInUser ? `<button class="rateReview-btn">Rate & Review</button>` : ''}
+        
         ${loggedInUser ? `<button class="watchlist-btn">${isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}</button>` : ''}
         </div>
         <h3>Rating ${movie.vote_average}</h3>
@@ -63,27 +63,54 @@ function showMovieDetails(movieId, rootElement) {
       </div>`;
 
       if (loggedInUser) {
-        const rateReviewBtn = rootElement.querySelector(".rateReview-btn");
-        rateReviewBtn.addEventListener('click', () =>{
-          if (document.getElementById('reviewDialog')) {
-            document.getElementById('reviewDialog').remove();
-          }
-          else{
-            let reviewDialog = document.createElement('div');
-            reviewDialog.id = 'reviewDialog';
-            reviewDialog.classList.add('review-dialog');
-            reviewDialog.innerHTML = 
-              `<form id="reviewForm">
-                <label for="review">Review:</label>
-                <textarea id="review" rows="4" cols="50" required placeholder="Write review..."></textarea><br>
-                <label for="rating">Rating (1-10):</label>
-                <input type="number" id="rating" min="1" max="10" required><br>
-                <button type="submit" id="submitButton">Submit Review</button>
-              </form>`;
-            const movieDetails = rootElement.querySelector('.rate-review-btn');
-            movieDetails.appendChild(reviewDialog);
-          }
+        // const rateReviewBtn = rootElement.querySelector(".rateReview-btn");
+        // rateReviewBtn.addEventListener('click', () =>{
+        //   if (document.getElementById('reviewDialog')) {
+        //     document.getElementById('reviewDialog').remove();
+        //   }
+        //   else{
+        //     let reviewDialog = document.createElement('div');
+        //     reviewDialog.id = 'reviewDialog';
+        //     reviewDialog.classList.add('review-dialog');
+        //     reviewDialog.innerHTML = 
+        //       `<form id="reviewForm">
+        //         <label for="review">Review:</label>
+        //         <textarea id="review" rows="4" cols="50" required placeholder="Write review..."></textarea><br>
+        //         <label for="rating">Rating (1-10):</label>
+        //         <input type="number" id="rating" min="1" max="10" required><br>
+        //         <button type="submit" id="submitButton">Submit Review</button>
+        //       </form>`;
+        //     const movieDetails = rootElement.querySelector('.rate-review-btn');
+        //     movieDetails.appendChild(reviewDialog);
+        //   }
+        // });
+
+
+        const reviewForm = document.getElementById("reviewForm");
+        reviewForm.addEventListener("submit", function(event) {
+          event.preventDefault();
+          const review = document.getElementById("review").value;
+          const rating = document.getElementById("rating").value;
+
+          // Here you would send the review and rating to the server
+          fetch('/reviews/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: loggedInUser.id, movieId: movieId, review: review, rating: rating })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            reviewDialog.remove();
+            // Update UI with the new review
+            const reviewsContainer = rootElement.querySelector("#reviews");
+            reviewsContainer.innerHTML += `<p>${review}</p>`;
+          })
+          .catch(error => console.error('Error:', error));
         });
+
 
         const watchlistBtn = rootElement.querySelector(".watchlist-btn");
         if (watchlistBtn) {
