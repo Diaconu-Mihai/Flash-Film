@@ -14,14 +14,13 @@ app.use(bodyParser.json())
 
 let accounts
 let users
-let admins
+
 
 
 fileReaderAsync(path.join(__dirname, 'accounts.json'))
     .then(data => {
         accounts = data;
         users = data.users;
-        admins = data.admins;
     })
     .catch(error => {
         console.error('Error reading accounts file:', error);
@@ -41,12 +40,48 @@ app.post('/newuser', (req, res) => {
     })
 })
 
+app.post('/watchlist/add', (req, res) => {
+    const { userId, movieTitle } = req.body;
+    const user = accounts.users.find(user => user.id === userId);
 
-app.get(["/home", "/newuser"], (req, res) => {
+    if (user) {
+        user.favmovies.push(movieTitle);
+        fs.writeFile('backend/accounts.json', JSON.stringify(accounts, null, 2), 'utf8', (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            }
+            res.json({ message: 'Movie added to watchlist', favmovies: user.favmovies });
+        });
+    } else {
+        res.status(404).json({ error: 'User not found' });
+    }
+});
+
+
+app.post('/watchlist/remove', (req, res) => {
+    const { userId, movieTitle } = req.body;
+    const user = accounts.users.find(user => user.id === userId);
+
+    if (user) {
+        user.favmovies = user.favmovies.filter(title => title !== movieTitle);
+        fs.writeFile('backend/accounts.json', JSON.stringify(accounts, null, 2), 'utf8', (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            }
+            res.json({ message: 'Movie removed from watchlist', favmovies: user.favmovies });
+        });
+    } else {
+        res.status(404).json({ error: 'User not found' });
+    }
+});
+
+
+app.get(["/home", "/newuser", "/login"], (req, res) => {
     res.render("index")
-})
-app.get("/admins", (req, res) => {
-    res.send(admins)
 })
 app.get("/users", (req, res) => {
     res.send(users)
@@ -56,7 +91,11 @@ app.get("/logo", (req, res) => {
     res.sendFile(path.join(__dirname, 'logo.png'));
 })
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-    console.log(`http://localhost:${3000}/home`)
-})
+if (require.main === module) {
+    app.listen(3000, () => {
+        console.log('Server is running on port 3000');
+        console.log(`http://localhost:${3000}/home`);
+    });
+} else {
+    module.exports = app;
+}
