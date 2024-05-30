@@ -1,12 +1,14 @@
 /*navbar*/
-
 .navbar {
   background-color: #272323;
   width: 100%;
   display: flex;
   padding: 5px 0;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar-left {
@@ -30,11 +32,9 @@
 
 .navbar-center {
   flex: 1; /* Ocupă spațiul disponibil între stânga și dreapta */
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
 }
-
-
 
 #searchForm {
   display: flex;
@@ -49,7 +49,13 @@
   margin-right: 5px;
 }
 
-#searchButton, #SignUpButton, #LogInButton, #logoutButton, #favoriteButton, #submitButton {
+#searchButton,
+#SignUpButton,
+#LogInButton,
+#logoutButton,
+#favoriteButton,
+#submitButton,
+#filterButton {
   padding: 10px 10px;
   border-radius: 5px;
   background-color: #770202;
@@ -59,7 +65,8 @@
   margin-right: 5px;
 }
 
-#SignUpButton a, #LogInButton a{
+#SignUpButton a,
+#LogInButton a {
   padding: 5px 5px;
   border-radius: 5px;
   color: white;
@@ -82,7 +89,6 @@
 }
 
 /* general */
-
 body {
   font-family: Arial, sans-serif;
   background-color: #121212;
@@ -92,6 +98,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 60px; /* Add padding to account for the fixed navbar */
 }
 
 #root {
@@ -123,12 +130,13 @@ h1 {
 }
 
 .trailer {
-  float: right; 
+  float: right;
   width: 800px;
   height: auto;
 }
 
-.description, .release-date {
+.description,
+.release-date {
   margin-top: 30px;
 }
 
@@ -145,7 +153,8 @@ h1 {
 }
 
 .rateReview-btn:hover,
-.watchlist-btn:hover, .more-btn:hover {
+.watchlist-btn:hover,
+.more-btn:hover {
   background-color: #4a0101;
 }
 
@@ -157,7 +166,7 @@ h1 {
 
 .actor {
   text-align: center;
-  width: 180px; 
+  width: 180px;
 }
 
 .actor-image {
@@ -171,14 +180,13 @@ h1 {
   font-size: 14px;
 }
 
-
 .hidden-actors {
   display: none;
 }
 
 .hidden-actors.show {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); 
+  grid-template-columns: repeat(6, 1fr);
   margin-top: 10px;
 }
 
@@ -205,12 +213,11 @@ h1 {
   padding-bottom: 10px;
 }
 
-
 #footer {
   background-color: #272323;
   color: #fff;
   text-align: center;
-  position:fixed;
+  position: fixed;
   bottom: -100px;
   left: 0;
   width: 100%;
@@ -246,7 +253,11 @@ h1 {
   font-weight: bold;
 }
 
-#name, #surname, #username, #email, #password {
+#name,
+#surname,
+#username,
+#email,
+#password {
   padding: 5px;
   border-radius: 5px;
   border: 2px solid #9d0909;
@@ -261,8 +272,9 @@ label {
   margin-right: 10px; /* Adjust as needed for spacing */
 }
 
-#createUser, #loginButton {
-  margin: 15px auto; 
+#createUser,
+#loginButton {
+  margin: 15px auto;
   padding: 10px 10px;
   border-radius: 5px;
   background-color: #770202;
@@ -273,7 +285,8 @@ label {
   width: fit-content; /* Adjust the width to fit the content */
 }
 
-#newUserForm, #loginForm {
+#newUserForm,
+#loginForm {
   background-color: rgb(53, 53, 53); /* Adjust the color code as needed */
   padding: 20px; /* Adjust padding as needed */
   border-radius: 5px; /* Adjust border radius as needed */
@@ -288,8 +301,113 @@ label {
   transition: all 0.3s;
 }
 
-#review, #rating {
+#review,
+#rating {
   padding: 5px;
   border-radius: 5px;
   border: 2px solid #9d0909;
+}
+
+/*pop up*/
+.popup {
+  display: none;
+  position: absolute;
+  top: 60px; /* Position it just below the navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #272323;
+  border: 2px solid #9d0909;
+  border-radius: 5px;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.popup-content {
+  width: 300px;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+}
+
+.popup-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.popup-content ul li {
+  margin-bottom: 10px;
+}
+
+.popup-content ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.popup-content ul li a:hover {
+  text-decoration: underline;
+}
+
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Filter form */
+#formFilter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#formFilter div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#formFilter label {
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
+  color: #fff;
+}
+
+#selectGenre,
+#runtimeMin,
+#runtimeMax,
+#ratingMin,
+#ratingMax,
+#yearMin,
+#yearMax {
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid #9d0909;
+  width: 90px;
+  margin-right: 10px;
+}
+
+#applyFilter {
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #770202;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#applyFilter:hover {
+  background-color: #4a0101;
 }

@@ -29,7 +29,7 @@ function showMovieDetails(movieId, rootElement) {
         </div>
         <div id="reviews">Reviews: </div> 
         <div class="rate-review-btn">
-        ${loggedInUser ? `<button class="rateReview-btn">Rate & Review</button>` : ''}
+        
         ${loggedInUser ? `<button class="watchlist-btn">${isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}</button>` : ''}
         </div>
         <h3>Rating ${movie.vote_average}</h3>
@@ -63,27 +63,27 @@ function showMovieDetails(movieId, rootElement) {
       </div>`;
 
       if (loggedInUser) {
-        const rateReviewBtn = rootElement.querySelector(".rateReview-btn");
-        rateReviewBtn.addEventListener('click', () =>{
-          if (document.getElementById('reviewDialog')) {
-            document.getElementById('reviewDialog').remove();
-          }
-          else{
-            let reviewDialog = document.createElement('div');
-            reviewDialog.id = 'reviewDialog';
-            reviewDialog.classList.add('review-dialog');
-            reviewDialog.innerHTML = 
-              `<form id="reviewForm">
-                <label for="review">Review:</label>
-                <textarea id="review" rows="4" cols="50" required placeholder="Write review..."></textarea><br>
-                <label for="rating">Rating (1-10):</label>
-                <input type="number" id="rating" min="1" max="10" required><br>
-                <button type="submit" id="submitButton">Submit Review</button>
-              </form>`;
-            const movieDetails = rootElement.querySelector('.rate-review-btn');
-            movieDetails.appendChild(reviewDialog);
-          }
-        });
+        // const rateReviewBtn = rootElement.querySelector(".rateReview-btn");
+        // rateReviewBtn.addEventListener('click', () =>{
+        //   if (document.getElementById('reviewDialog')) {
+        //     document.getElementById('reviewDialog').remove();
+        //   }
+        //   else{
+        //     let reviewDialog = document.createElement('div');
+        //     reviewDialog.id = 'reviewDialog';
+        //     reviewDialog.classList.add('review-dialog');
+        //     reviewDialog.innerHTML = 
+        //       `<form id="reviewForm">
+        //         <label for="review">Review:</label>
+        //         <textarea id="review" rows="4" cols="50" required placeholder="Write review..."></textarea><br>
+        //         <label for="rating">Rating (1-10):</label>
+        //         <input type="number" id="rating" min="1" max="10" required><br>
+        //         <button type="submit" id="submitButton">Submit Review</button>
+        //       </form>`;
+        //     const movieDetails = rootElement.querySelector('.rate-review-btn');
+        //     movieDetails.appendChild(reviewDialog);
+        //   }
+        // });
 
         const watchlistBtn = rootElement.querySelector(".watchlist-btn");
         if (watchlistBtn) {
@@ -280,6 +280,45 @@ window.addEventListener("load", function () {
       footer.style.bottom = "-100px";
     }
   });
+
+  let genre = "None"
+  var filterButton = document.getElementById("filterButton");
+  var filterPopup = document.getElementById("filterPopup");
+
+  // Move the filter button to the left side of the search bar
+  var navbarCenter = document.querySelector(".navbar-center");
+  navbarCenter.insertBefore(filterButton, navbarCenter.firstChild);
+  var closeButton = filterPopup.querySelector(".close");
+  
+
+  filterButton.addEventListener("click", function () {
+    
+    // Position the popup below the filter button
+    var filterButtonRect = filterButton.getBoundingClientRect();
+    filterPopup.style.left = filterButtonRect.left + "px";
+    filterPopup.style.top =
+      filterButtonRect.bottom + window.scrollY + "px";
+
+    filterPopup.style.display = "block";
+  });
+
+  closeButton.addEventListener("click", function () {
+    filterPopup.style.display = "none";
+  });
+
+  // Ascunde popup-ul când se face clic în afara acestuia
+  window.addEventListener("click", function (event) {
+    if (event.target == filterPopup) {
+      filterPopup.style.display = "none";
+    }
+  });
+
+  const formFilter = document.getElementById("formFilter");
+
+  
+
+
+
   const page = window.location.pathname.substring(1);
   const rootElement = document.getElementById("root");
   let userNames = [];
@@ -313,50 +352,70 @@ window.addEventListener("load", function () {
      
         const apiKey = `e39de4c3c1c2758867914877e0dea313`;
 
-        // function showMovies(url) {
-        //   fetch(url)
-        //     .then((response) => response.json())
-        //     .then((data) => {
-
-        //       const movies = data.results.slice(0, 9);
-        //       rootElement.innerHTML = `<div class="movies-grid"></div>`;
-
-        //       const moviesGrid = document.querySelector(".movies-grid");
-
-        //       movies.forEach((movie) => {
-        //         const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-
-        //         moviesGrid.insertAdjacentHTML("beforeend",
-        //           `<div class="movie" data-movie-id="${movie.id}">
-        //           <img src="${posterUrl}" alt="${movie.title}" class="movie-poster">
-        //           <p class="movie-title">${movie.title}</p>
-        //         </div>`
-        //         );
-        //       });
-
-        //       const movieElements = document.querySelectorAll(".movie");
-        //       movieElements.forEach((movieElement) => {
-        //         movieElement.addEventListener("click", function () {
-        //           const movieId = this.getAttribute("data-movie-id");
-        //           console.log(movieId);
-        //           rootElement.innerHTML = "";
-        //           showMovieDetails(movieId, rootElement);
-        //         });
-        //       });
-        //     })
-        //     .catch((error) => {
-        //       console.log(error);
-        //     });
-
-        // }
+        
 
         let movieTitle;
         const searchBar = document.getElementById("searchInput");
         const searchButton = document.getElementById("searchButton");
         console.log(searchButton);
 
-        const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
+       let apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
         showMovies(apiUrl, rootElement)
+
+
+
+
+        formFilter.addEventListener("submit", function (event) {
+          event.preventDefault();
+          console.log(formFilter.elements.selectGenre.options[formFilter.elements.selectGenre.selectedIndex]);
+          var idGenre= formFilter.elements.selectGenre.options[formFilter.elements.selectGenre.selectedIndex].id;
+          var minLength=formFilter.elements.runtimeMin.value;
+          var maxLength=formFilter.elements.runtimeMax.value;
+          var minRating = formFilter.elements.ratingMin.value; 
+          var maxRating = formFilter.elements.ratingMax.value; 
+          var minYear = formFilter.elements.yearMin.value; 
+          var maxYear = formFilter.elements.yearMax.value; 
+         
+
+          apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`;
+         
+          if (formFilter.elements.selectGenre.value !== "None") {
+            apiUrl += `&with_genres=${idGenre}`;
+        }
+
+        if(minLength !== "" && maxLength !== ""){
+          apiUrl += `&with_runtime.gte=${minLength}&with_runtime.lte=${maxLength}`;
+      } else if(minLength !== ""){
+          apiUrl += `&with_runtime.gte=${minLength}`;
+      } else if(maxLength !== ""){
+          apiUrl += `&with_runtime.lte=${maxLength}`;
+      }
+
+        if (minRating !== "" && maxRating !== "") { 
+          apiUrl += `&vote_average.gte=${minRating}&vote_average.lte=${maxRating}`;
+        } else if (minRating !== "") {
+          apiUrl += `&vote_average.gte=${minRating}`;
+        } else if (maxRating !== "") {
+          apiUrl += `&vote_average.lte=${maxRating}`;
+        }
+
+        if (minYear !== "" && maxYear !== "") { 
+          apiUrl += `&primary_release_year=${minYear}:${maxYear}`;
+        } else if (minYear !== "") {
+          apiUrl += `&primary_release_year=${minYear}`;
+        } else if (maxYear !== "") {
+          apiUrl += `&primary_release_year=${maxYear}`;
+        }
+
+        
+
+        
+    
+          showMovies(apiUrl,rootElement);
+        });
+
+
+
 
         searchBar.addEventListener("input", function () {
           if (searchBar.value.length >= 3) {
